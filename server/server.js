@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // incluir rutas de /usuario
-app.use(require('./routes/impresoras'));
+app.use(require('./routes/Fundacion'));
 
 // Conectar con MongoDB
 mongoose.connect(process.env.URLDB, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true },

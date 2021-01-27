@@ -2,11 +2,11 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 
-const Impresora = require('../models/Impresora');
+const Fundaciones = require('../models/Fundacion');
 
 const app = express();
 
-app.get('/impresora', (req, res) => {
+app.get('/fundaciones', (req, res) => {
 
     let desde = req.query.desde || 0;
     desde = Number(desde)
@@ -14,10 +14,10 @@ app.get('/impresora', (req, res) => {
     let limite = req.query.limite || 5;
     limite = Number(limite)
 
-    Impresora.find()
+    Fundaciones.find()
         .skip(desde)
         .limit(limite)
-        .exec((err, impresoras) => {
+        .exec((err, fundacion) => {
 
             if (err) {
                 return res.status(400).json({
@@ -26,32 +26,37 @@ app.get('/impresora', (req, res) => {
                 });
             }
 
-            Impresora.count( (err, conteo) => {
+            Fundaciones.count( (err, conteo) => {
                 res.json({
                     ok: true,
-                    impresoras,
+                    fundacion,
                     numero: conteo
                 });
             });
         })
 });
 
-app.post('/impresora', (req, res) => {
+app.post('/fundaciones', (req, res) => {
 
     let body = req.body
 
-    let impresora = new Impresora({
-        marca: body.marca,
-        modelo: body.modelo,
-        n_serie: body.n_serie,
-        color: body.color,
-        ip :body.ip,
-        n_contador:body.n_contador,
-        precio:body.precio
+    let fundacion = new Fundaciones({
+        nombre: body.nombre,
+        direccion: body.direccion,
+        email: body.email,
+        longitud: body.longitud,
+        latitud :body.latitud,
+        telefono:body.telefono,
+        img:body.img,
+        password:body.password,
+        pais:body.pais,
+        provincia:body.provincia,
+        ciudad:body.ciudad,
+        terminosCondiciones:body.terminosCondiciones
        
     });
 
-    impresora.save((err, impresoraDB) => {
+    fundacion.save((err, fundacionDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -61,16 +66,16 @@ app.post('/impresora', (req, res) => {
 
         res.json({
             ok: true,
-            impresora: impresoraDB
+            fundacion: fundacionDB
         });
     });
 });
 
-app.put('/impresora/:id', (req, res) => {
+app.put('/fundaciones/:id', (req, res) => {
     let id = req.params.id;
-    let body = _.pick(req.body, ["modelo","color", "ip","precio"]);
+    let body = _.pick(req.body, ["direccion","longitud", "latitud","telefono","img","password"]);
 
-    Impresora.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, impresoraBD) => {
+    Fundaciones.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, fundacionBD) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -80,17 +85,17 @@ app.put('/impresora/:id', (req, res) => {
 
         res.json({
             ok: true,
-            impresora: impresoraBD
+            fundacion: fundacionBD
         });
     });
 });
 
-app.delete('/impresora/:id', (req, res) => {
+app.delete('/fundaciones/:id', (req, res) => {
 
     let id = req.params.id;
   
 
-    Impresora.findByIdAndDelete(id,  (err, impresoraBD) => {
+    Fundaciones.findByIdAndDelete(id,  (err, fundacionesBD) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -98,7 +103,7 @@ app.delete('/impresora/:id', (req, res) => {
             });
         }
 
-        if (!impresoraBD) {
+        if (!fundacionesBD) {
             res.json({
                 ok: false,
                 err: {
@@ -108,7 +113,7 @@ app.delete('/impresora/:id', (req, res) => {
         } else {
             res.json({
                 ok: true,
-                usuario: impresoraBD
+                fundacion: fundacionesBD
             });
         }
     });

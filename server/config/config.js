@@ -16,10 +16,10 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
 let urlDB;
 
-if (process.env.NODE_ENV === 'dev') {
-    urlDB = 'mongodb://localhost:27017/impresoras';
-} else {
-    urlDB = 'mongodb+srv://msuin:Elcijote99@cluster0.xpsal.mongodb.net/impresoras'
-}
+//if (process.env.NODE_ENV === 'dev') {
+   // urlDB = 'mongodb://localhost:27017/impresoras';
+//} else {
+    urlDB = 'mongodb+srv://msuin:Elcijote99@cluster0.xpsal.mongodb.net/BdAdopcion'
+//}
 
 process.env.URLDB = urlDB;

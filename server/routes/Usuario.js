@@ -35,7 +35,7 @@ app.get('/usuario', (req, res) => {
             });
         })
 });
-
+/*  Login   */
 app.post('/login', (req, res) => {
 
     let email = req.body.email;
@@ -43,26 +43,38 @@ app.post('/login', (req, res) => {
     Usuario.findOne({ email: email }, 'nombre apellido email password').exec((err, usuarioBD) => {
 
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             });
         }
-        if (usuarioBD.comparePasswords(password)) {
-            let token = jwt.sign({
-                usuario: { nombre: usuarioBD.nombre, apellido: usuarioBD.apellido, email: usuarioBD.email }
-            }, process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKEN });
-            res.status(200).json({
-                ok: true,
-                token: token
+        if (!usuarioBD) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: "Usuario o contraseña incorrectos"
+                }
+            });
+        }
+        if (!usuarioBD.comparePasswords(password)) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: "Usuario o contraseña incorrectos"
+                }
             });
         }
 
-    })
+        let token = jwt.sign({
+            usuario: usuarioBD
+        }, process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKEN });
 
-
-
-
+        res.status(200).json({
+            ok: true,
+            usuario: usuarioBD,
+            token: token
+        });
+    });
 });
 
 

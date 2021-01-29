@@ -102,7 +102,8 @@ app.post('/usuario', (req, res) => {
 
         res.json({
             ok: true,
-            usuario: usuarioDB
+            usuario: usuarioDB,
+            message: "Registrado con exito"
         });
     });
 });

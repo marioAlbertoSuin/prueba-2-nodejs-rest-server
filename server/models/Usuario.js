@@ -36,7 +36,7 @@ let usuarioSchema = new Schema({
 
 });
 
-usuarioSchema.plugin(uniqueValidator, { message: '{email} debe ser único' });
+usuarioSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único' });
 
 usuarioSchema.methods.toJSON = function() {
     let user = this;

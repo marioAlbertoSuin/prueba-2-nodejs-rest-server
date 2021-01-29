@@ -57,14 +57,16 @@ app.get('/Fundaciones', (req, res) => {
             }
 
             Fundaciones.count( (err, conteo) => {
-                
-  
+                res.json({
+                    
                     fundacion,
-           
-              
+                    
+                });
             });
         })
 });
+
+
 
 app.post('/fundaciones', (req, res) => {
 

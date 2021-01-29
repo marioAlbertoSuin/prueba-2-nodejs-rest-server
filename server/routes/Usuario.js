@@ -40,6 +40,7 @@ app.post('/login', (req, res) => {
 
     let email = req.body.email;
     let password = req.body.password;
+
     Usuario.findOne({ email: email }, 'nombre apellido email password').exec((err, usuarioBD) => {
 
         if (err) {

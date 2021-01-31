@@ -7,7 +7,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true ,limit:'50mb'}))
 
 // Add headers
 app.use(function(req, res, next) {

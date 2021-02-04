@@ -6,7 +6,7 @@ const Usuario = require('../models/Usuario');
 
 const app = express();
 
-app.get('/usuario', (req, res) => {
+app.get('/usuario/:id', (req, res) => {
 
     let desde = req.query.desde || 0;
     desde = Number(desde)
@@ -14,7 +14,7 @@ app.get('/usuario', (req, res) => {
     let limite = req.query.limite || 5;
     limite = Number(limite)
 
-    Usuario.find({ estado: true }, 'nombre email estado img')
+    Usuario.findById({ _id: req.params.id, estado: true }, 'nombre email estado img')
         .skip(desde)
         .limit(limite)
         .exec((err, usuarios) => {

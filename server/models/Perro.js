@@ -7,7 +7,7 @@ let Schema = mongoose.Schema;
 let PerroSchema = new Schema({
     nombre: {
         type: String,
-        required: [false, 'El correo es requerido']
+       
         
     },
     edad: {
@@ -43,4 +43,4 @@ let PerroSchema = new Schema({
 
 
 
-module.exports = mongoose.model('impresora', PerroSchema);
+module.exports = mongoose.model('Perro', PerroSchema);

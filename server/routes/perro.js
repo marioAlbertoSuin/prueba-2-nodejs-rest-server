@@ -36,6 +36,36 @@ app.get('/perros', (req, res) => {
         })
 });
 
+
+app.get('/perrosPorFun/:id', (req, res) => {
+    let id = req.params.id;
+    Perros.aggregate([
+        {$match:{codFundacion:id}}
+    ],(err,perroBD)=>{
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (perroBD.leght==0) {
+            res.json({
+                ok: false,
+                err: {
+                    message: "perro no encontrado"
+                }
+            });
+        } else {
+            res.json({
+                ok: true,
+                perroBD
+            });
+        }
+    });
+});
+
+
 app.post('/perros', (req, res) => {
 
     let body = req.body

@@ -36,35 +36,6 @@ app.get('/fundaciones', (req, res) => {
         })
 });
 
-app.get('/Fundaciones', (req, res) => {
-
-    let desde = req.query.desde || 0;
-    desde = Number(desde)
-
-    let limite = req.query.limite || 5;
-    limite = Number(limite)
-
-    Fundaciones.find()
-        .skip(desde)
-        .limit(limite)
-        .exec((err, fundacion) => {
-
-            if (err) {
-                return res.status(400).json({
-                    ok: false,
-                    err
-                });
-            }
-
-            Fundaciones.count( (err, conteo) => {
-                res.json({
-                    
-                    fundacion,
-                    
-                });
-            });
-        })
-});
 
 
 

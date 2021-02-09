@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const _ = require('underscore');
 
 const Perros = require('../models/Perro');
+const email = require('../models/Email')
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.get('/perros', (req, res) => {
                 });
             }
 
-            Perros.count( (err, conteo) => {
+            Perros.count((err, conteo) => {
                 res.json({
                     ok: true,
                     perro,
@@ -40,8 +41,8 @@ app.get('/perros', (req, res) => {
 app.get('/perrosPorFun/:id', (req, res) => {
     let id = req.params.id;
     Perros.aggregate([
-        {$match:{codFundacion:id}}
-    ],(err,perroBD)=>{
+        { $match: { codFundacion: id } }
+    ], (err, perroBD) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -49,7 +50,7 @@ app.get('/perrosPorFun/:id', (req, res) => {
             });
         }
 
-        if (perroBD.leght==0) {
+        if (perroBD.leght == 0) {
             res.json({
                 ok: false,
                 err: {
@@ -74,13 +75,13 @@ app.post('/perros', (req, res) => {
         nombre: body.nombre,
         edad: body.edad,
         tamaño: body.tamaño,
-        img:body.img,
-        historia:body.historia,
-        estado:body.estado,
-        codFundacion:body.codFundacion,
-        requisitos:body.requisitos,
-        discapacidades:body.discapacidades
-       
+        img: body.img,
+        historia: body.historia,
+        estado: body.estado,
+        codFundacion: body.codFundacion,
+        requisitos: body.requisitos,
+        discapacidades: body.discapacidades
+
     });
 
     perro.save((err, perroDB) => {
@@ -98,9 +99,27 @@ app.post('/perros', (req, res) => {
     });
 });
 
+app.post('/adoptar', (req, res) => {
+
+    let body = req.body
+    console.log("llego");
+    err = email.sendEmail(body.emailF, body.nombreF, body.nombre, body.apellido, body.idPerro, body.correoP);
+
+    if (!err) {
+        return res.status(400).json({
+            ok: false,
+            message: 'No se envio correo'
+        });
+    }
+
+    res.json({
+        ok: true
+    });
+});
+
 app.put('/perros/:id', (req, res) => {
     let id = req.params.id;
-    let body = _.pick(req.body, ["nombre","discapacidades", "edad","tamaño","img","requisitos","estado"]);
+    let body = _.pick(req.body, ["nombre", "discapacidades", "edad", "tamaño", "img", "requisitos", "estado"]);
 
     Perros.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, perroBD) => {
         if (err) {
@@ -120,9 +139,9 @@ app.put('/perros/:id', (req, res) => {
 app.delete('/perros/:id', (req, res) => {
 
     let id = req.params.id;
-  
 
-    Perros.findByIdAndDelete(id,  (err, perroBD) => {
+
+    Perros.findByIdAndDelete(id, (err, perroBD) => {
         if (err) {
             return res.status(400).json({
                 ok: false,

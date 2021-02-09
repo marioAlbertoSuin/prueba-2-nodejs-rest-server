@@ -26,7 +26,7 @@ app.get('/fundaciones', (req, res) => {
                 });
             }
 
-            Fundaciones.count( (err, conteo) => {
+            Fundaciones.count((err, conteo) => {
                 res.json({
                     ok: true,
                     fundacion,
@@ -48,15 +48,15 @@ app.post('/fundaciones', (req, res) => {
         direccion: body.direccion,
         email: body.email,
         longitud: body.longitud,
-        latitud :body.latitud,
-        telefono:body.telefono,
-        img:body.img,
-        password:body.password,
-        pais:body.pais,
-        provincia:body.provincia,
-        ciudad:body.ciudad,
-        terminosCondiciones:body.terminosCondiciones
-       
+        latitud: body.latitud,
+        telefono: body.telefono,
+        img: body.img,
+        password: body.password,
+        pais: body.pais,
+        provincia: body.provincia,
+        ciudad: body.ciudad,
+        terminosCondiciones: body.terminosCondiciones
+
     });
 
     fundacion.save((err, fundacionDB) => {
@@ -76,7 +76,7 @@ app.post('/fundaciones', (req, res) => {
 
 app.put('/fundaciones/:id', (req, res) => {
     let id = req.params.id;
-    let body = _.pick(req.body, ["direccion","longitud", "latitud","telefono","img","password"]);
+    let body = _.pick(req.body, ["direccion", "longitud", "latitud", "telefono", "img", "password"]);
 
     Fundaciones.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, fundacionBD) => {
         if (err) {
@@ -96,9 +96,9 @@ app.put('/fundaciones/:id', (req, res) => {
 app.delete('/fundaciones/:id', (req, res) => {
 
     let id = req.params.id;
-  
 
-    Fundaciones.findByIdAndDelete(id,  (err, fundacionesBD) => {
+
+    Fundaciones.findByIdAndDelete(id, (err, fundacionesBD) => {
         if (err) {
             return res.status(400).json({
                 ok: false,

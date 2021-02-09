@@ -99,11 +99,11 @@ app.post('/perros', (req, res) => {
     });
 });
 
-app.post('/adoptar', (req, res) => {
+app.post('/adoptar', async(req, res) => {
 
     let body = req.body
     console.log("llego");
-    err = email.sendEmail(body.emailF, body.nombreF, body.nombre, body.apellido, body.idPerro, body.correoP);
+    err = await email.sendEmail(body.emailF, body.nombreF, body.nombre, body.apellido, body.idPerro, body.correoP);
 
     if (!err) {
         return res.status(400).json({

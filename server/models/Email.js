@@ -3,26 +3,30 @@
 
  //Creamos el objeto de transporte
  var transporter = nodemailer.createTransport({
-     service: 'gmail',
+     service: 'hotmail',
+     secure: false,
      auth: {
-         user: 'akmnj2021@gmail.com',
-         pass: 'paralelo2021'
+         user: 'jcarrascop1@est.ups.edu.ec',
+         pass: 'Computadora1234'
+     },
+     tls: {
+         rejectUnauthorized: false
      }
  });
 
- let sendEmail = (emailF, nombreF, nombre, apellido, idPerro, correoP) => {
+ let sendEmail = async(emailF, nombreF, nombre, apellido, idPerro, correoP) => {
 
      var mensaje = `<h1>Fundacion ${nombreF}</h1><p>${nombre} ${apellido} desea adoptadar el perrito ${idPerro} su correo ${correoP}</p>`;
 
      var mailOptions = {
-         from: 'akmnj2021@gmail.com',
+         from: 'jcarrascop1@est.ups.edu.ec',
          to: emailF,
          subject: 'Adopcion',
          //text: mensaje,
          html: mensaje
      };
      console.log("queriendo enviar");
-     transporter.sendMail(mailOptions, function(error, info) {
+     await transporter.sendMail(mailOptions, function(error, info) {
          if (error) {
              console.log(error);
              return false;

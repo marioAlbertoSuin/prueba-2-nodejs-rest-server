@@ -6,8 +6,8 @@
      service: 'hotmail',
      secure: false,
      auth: {
-         user: 'jcarrascop1@est.ups.edu.ec',
-         pass: 'Computadora1234'
+         user: '###',
+         pass: '###'
      },
      tls: {
          rejectUnauthorized: false
@@ -19,7 +19,7 @@
      var mensaje = `<h1>Fundacion ${nombreF}</h1><p>${nombre} ${apellido} desea adoptadar el perrito ${idPerro} su correo ${correoP}</p>`;
 
      var mailOptions = {
-         from: 'jcarrascop1@est.ups.edu.ec',
+         from: '###',
          to: emailF,
          subject: 'Adopcion',
          //text: mensaje,
